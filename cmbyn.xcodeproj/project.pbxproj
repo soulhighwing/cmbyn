@@ -16,6 +16,8 @@
 		FF2EF714206F7059006F44E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF713206F7059006F44E1 /* main.m */; };
 		FF2EF71E206F7059006F44E1 /* cmbynTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF71D206F7059006F44E1 /* cmbynTests.m */; };
 		FF2EF729206F7059006F44E1 /* cmbynUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF728206F7059006F44E1 /* cmbynUITests.m */; };
+		FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */; };
+		FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,10 @@
 		FF2EF724206F7059006F44E1 /* cmbynUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cmbynUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2EF728206F7059006F44E1 /* cmbynUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cmbynUITests.m; sourceTree = "<group>"; };
 		FF2EF72A206F7059006F44E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF2EF73A206FA94E006F44E1 /* HelpScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpScreenViewController.h; sourceTree = "<group>"; };
+		FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpScreenViewController.m; sourceTree = "<group>"; };
+		FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainInterfaceTabViewController.h; sourceTree = "<group>"; };
+		FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainInterfaceTabViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,10 +117,14 @@
 				FF2EF707206F7059006F44E1 /* SecondViewController.h */,
 				FF2EF708206F7059006F44E1 /* SecondViewController.m */,
 				FF2EF70A206F7059006F44E1 /* Main.storyboard */,
+				FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */,
+				FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */,
 				FF2EF70D206F7059006F44E1 /* Assets.xcassets */,
 				FF2EF70F206F7059006F44E1 /* LaunchScreen.storyboard */,
 				FF2EF712206F7059006F44E1 /* Info.plist */,
 				FF2EF713206F7059006F44E1 /* main.m */,
+				FF2EF73A206FA94E006F44E1 /* HelpScreenViewController.h */,
+				FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */,
 			);
 			path = cmbyn;
 			sourceTree = "<group>";
@@ -270,10 +280,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */,
 				FF2EF709206F7059006F44E1 /* SecondViewController.m in Sources */,
 				FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */,
 				FF2EF714206F7059006F44E1 /* main.m in Sources */,
 				FF2EF706206F7059006F44E1 /* FirstViewController.m in Sources */,
+				FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-
+#import "HelpScreenViewController.h"
+#import "MainInterfaceTabViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +18,36 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //use NSUSERDEFAULTS TO SAVE THE HELPSCREEN STATE
+    
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
+        NSLog(@"showHelp");
+        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HelpScreen"];
+        self.window.rootViewController = viewController;
+    }else {
+        NSLog(@"Not show help");
+        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainInterface"];
+        self.window.rootViewController = viewController;
+    }
+
+    [self.window makeKeyAndVisible];
+ 
+    
+    /*
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
+
+        HelpScreenViewController *vc = [[HelpScreenViewController alloc] init];
+        self.window.rootViewController = vc;
+    }else {
+        NSLog(@"Not show help");
+        MainInterfaceTabViewController *vc = [[MainInterfaceTabViewController alloc] init];
+        self.window.rootViewController = vc;
+    }
+*/
     return YES;
 }
 
