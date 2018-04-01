@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF702206F7059006F44E1 /* AppDelegate.m */; };
-		FF2EF706206F7059006F44E1 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF705206F7059006F44E1 /* FirstViewController.m */; };
-		FF2EF709206F7059006F44E1 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF708206F7059006F44E1 /* SecondViewController.m */; };
 		FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70A206F7059006F44E1 /* Main.storyboard */; };
 		FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70D206F7059006F44E1 /* Assets.xcassets */; };
 		FF2EF711206F7059006F44E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70F206F7059006F44E1 /* LaunchScreen.storyboard */; };
@@ -18,6 +16,7 @@
 		FF2EF729206F7059006F44E1 /* cmbynUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF728206F7059006F44E1 /* cmbynUITests.m */; };
 		FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */; };
 		FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */; };
+		FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7442070DA83006F44E1 /* ContactsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +40,6 @@
 		FF2EF6FE206F7059006F44E1 /* cmbyn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cmbyn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2EF701206F7059006F44E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF2EF702206F7059006F44E1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FF2EF704206F7059006F44E1 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		FF2EF705206F7059006F44E1 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		FF2EF707206F7059006F44E1 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		FF2EF708206F7059006F44E1 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		FF2EF70B206F7059006F44E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF2EF70D206F7059006F44E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF2EF710206F7059006F44E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -60,6 +55,8 @@
 		FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpScreenViewController.m; sourceTree = "<group>"; };
 		FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainInterfaceTabViewController.h; sourceTree = "<group>"; };
 		FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainInterfaceTabViewController.m; sourceTree = "<group>"; };
+		FF2EF7432070DA83006F44E1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
+		FF2EF7442070DA83006F44E1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +109,9 @@
 			children = (
 				FF2EF701206F7059006F44E1 /* AppDelegate.h */,
 				FF2EF702206F7059006F44E1 /* AppDelegate.m */,
-				FF2EF704206F7059006F44E1 /* FirstViewController.h */,
-				FF2EF705206F7059006F44E1 /* FirstViewController.m */,
-				FF2EF707206F7059006F44E1 /* SecondViewController.h */,
-				FF2EF708206F7059006F44E1 /* SecondViewController.m */,
 				FF2EF70A206F7059006F44E1 /* Main.storyboard */,
+				FF2EF7432070DA83006F44E1 /* ContactsViewController.h */,
+				FF2EF7442070DA83006F44E1 /* ContactsViewController.m */,
 				FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */,
 				FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */,
 				FF2EF70D206F7059006F44E1 /* Assets.xcassets */,
@@ -281,10 +276,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */,
-				FF2EF709206F7059006F44E1 /* SecondViewController.m in Sources */,
+				FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */,
 				FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */,
 				FF2EF714206F7059006F44E1 /* main.m in Sources */,
-				FF2EF706206F7059006F44E1 /* FirstViewController.m in Sources */,
 				FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
