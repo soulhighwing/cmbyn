@@ -17,6 +17,8 @@
 		FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */; };
 		FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */; };
 		FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7442070DA83006F44E1 /* ContactsViewController.m */; };
+		FF2EF74B20713F2F006F44E1 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2EF74A20713F2F006F44E1 /* Contacts.framework */; };
+		FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF74D207145D9006F44E1 /* ContactList.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,9 @@
 		FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainInterfaceTabViewController.m; sourceTree = "<group>"; };
 		FF2EF7432070DA83006F44E1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
 		FF2EF7442070DA83006F44E1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		FF2EF74A20713F2F006F44E1 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		FF2EF74C207145D9006F44E1 /* ContactList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactList.h; sourceTree = "<group>"; };
+		FF2EF74D207145D9006F44E1 /* ContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactList.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2EF74B20713F2F006F44E1 /* Contacts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +97,7 @@
 				FF2EF71C206F7059006F44E1 /* cmbynTests */,
 				FF2EF727206F7059006F44E1 /* cmbynUITests */,
 				FF2EF6FF206F7059006F44E1 /* Products */,
+				FF2EF74920713F2E006F44E1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +116,8 @@
 			children = (
 				FF2EF701206F7059006F44E1 /* AppDelegate.h */,
 				FF2EF702206F7059006F44E1 /* AppDelegate.m */,
+				FF2EF74C207145D9006F44E1 /* ContactList.h */,
+				FF2EF74D207145D9006F44E1 /* ContactList.m */,
 				FF2EF70A206F7059006F44E1 /* Main.storyboard */,
 				FF2EF7432070DA83006F44E1 /* ContactsViewController.h */,
 				FF2EF7442070DA83006F44E1 /* ContactsViewController.m */,
@@ -140,6 +149,14 @@
 				FF2EF72A206F7059006F44E1 /* Info.plist */,
 			);
 			path = cmbynUITests;
+			sourceTree = "<group>";
+		};
+		FF2EF74920713F2E006F44E1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF2EF74A20713F2F006F44E1 /* Contacts.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */,
 				FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */,
 				FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */,
 				FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */,
