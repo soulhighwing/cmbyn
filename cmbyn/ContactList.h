@@ -10,15 +10,16 @@
 
 #import <Foundation/Foundation.h>
 #import <Contacts/Contacts.h> //Contacts.framework for above iOS 9
-
+#import <UIKit/UIKit.h>
 @interface ContactList : NSObject{
-    NSMutableArray *totalPhoneNumberArray; //Total Mobile Contacts from access from this variable
+    NSMutableArray *allContactsArray; //Total Mobile Contacts from access from this variable
+    NSMutableArray *voipContactsArray; //Contacts with voip
     NSMutableArray *groupsOfContact; //Collection of contacts by using contacts.framework
     CNContactStore *contactStore; //ContactStore Object
 }
 
-@property (nonatomic,retain) NSMutableArray *totalPhoneNumberArray; //Total Mobile Contacts access from this variable property
-
+@property (nonatomic,retain) NSMutableArray *allContactsArray; //Total Mobile Contacts access from this variable property
+@property (nonatomic,retain) NSMutableArray *voipContactsArray; //Total Mobile Contacts access from this variable property
 //fetch Contact shared instance method
 +(id)sharedContacts; //Singleton method
 

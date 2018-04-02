@@ -19,6 +19,7 @@
 		FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7442070DA83006F44E1 /* ContactsViewController.m */; };
 		FF2EF74B20713F2F006F44E1 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2EF74A20713F2F006F44E1 /* Contacts.framework */; };
 		FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF74D207145D9006F44E1 /* ContactList.m */; };
+		FF2EF75220722483006F44E1 /* 244.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF75120722483006F44E1 /* 244.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		FF2EF74A20713F2F006F44E1 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		FF2EF74C207145D9006F44E1 /* ContactList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactList.h; sourceTree = "<group>"; };
 		FF2EF74D207145D9006F44E1 /* ContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactList.m; sourceTree = "<group>"; };
+		FF2EF75120722483006F44E1 /* 244.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 244.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		FF2EF700206F7059006F44E1 /* cmbyn */ = {
 			isa = PBXGroup;
 			children = (
+				FF2EF75120722483006F44E1 /* 244.jpg */,
 				FF2EF701206F7059006F44E1 /* AppDelegate.h */,
 				FF2EF702206F7059006F44E1 /* AppDelegate.m */,
 				FF2EF74C207145D9006F44E1 /* ContactList.h */,
@@ -265,6 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF2EF75220722483006F44E1 /* 244.jpg in Resources */,
 				FF2EF711206F7059006F44E1 /* LaunchScreen.storyboard in Resources */,
 				FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */,
 				FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */,

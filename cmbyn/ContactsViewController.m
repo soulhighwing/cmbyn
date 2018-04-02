@@ -14,16 +14,24 @@
 @end
 
 @implementation ContactsViewController
+@synthesize showVoIPOnly;
+@synthesize contactsTableView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
     
-    if ([[ContactList sharedContacts]totalPhoneNumberArray].count !=0) {
-        NSLog(@"Fetched Contact Details : %ld",[[ContactList sharedContacts]totalPhoneNumberArray].count);
+    if ([[ContactList sharedContacts]allContactsArray].count !=0) {
+        NSLog(@"Fetched Contact Details : %ld",[[ContactList sharedContacts]allContactsArray].count);
     }
   }
+
+-(IBAction)switchedVoIPList:(id)sender{
+    //refresh tableview when switched to voiplist or switch back
+    [contactsTableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -37,14 +45,25 @@
     
     UITableViewCell *cell =
     [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell.textLabel.text = [NSString stringWithFormat:@"contact name"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"123 %@ ",cell.detailTextLabel.text];
-
+    
+    if(showVoIPOnly.selectedSegmentIndex == 0){
+    cell.textLabel.text = [[ContactList sharedContacts]allContactsArray][indexPath.row][@"fullName"];
+    cell.detailTextLabel.text = [[ContactList sharedContacts]allContactsArray][indexPath.row][@"VoIPNumber"];
+    }
+    else{
+        cell.textLabel.text = [[ContactList sharedContacts]voipContactsArray][indexPath.row][@"fullName"];
+        cell.detailTextLabel.text = [[ContactList sharedContacts]voipContactsArray][indexPath.row][@"VoIPNumber"];
+    }
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    if(showVoIPOnly.selectedSegmentIndex == 0){
+        return [[ContactList sharedContacts]allContactsArray].count;
+    }
+    else{
+        return [[ContactList sharedContacts]voipContactsArray].count;
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
