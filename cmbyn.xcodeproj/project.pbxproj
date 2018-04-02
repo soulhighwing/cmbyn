@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF702206F7059006F44E1 /* AppDelegate.m */; };
-		FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70A206F7059006F44E1 /* Main.storyboard */; };
+		FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70A206F7059006F44E1 /* Main.storyboard */; settings = {ASSET_TAGS = (addButton, ); }; };
 		FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70D206F7059006F44E1 /* Assets.xcassets */; };
 		FF2EF711206F7059006F44E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70F206F7059006F44E1 /* LaunchScreen.storyboard */; };
 		FF2EF714206F7059006F44E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF713206F7059006F44E1 /* main.m */; };
@@ -20,6 +20,7 @@
 		FF2EF74B20713F2F006F44E1 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2EF74A20713F2F006F44E1 /* Contacts.framework */; };
 		FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF74D207145D9006F44E1 /* ContactList.m */; };
 		FF2EF75220722483006F44E1 /* 244.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF75120722483006F44E1 /* 244.jpg */; };
+		FF2EF7552072620A006F44E1 /* editContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7542072620A006F44E1 /* editContactViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		FF2EF74C207145D9006F44E1 /* ContactList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactList.h; sourceTree = "<group>"; };
 		FF2EF74D207145D9006F44E1 /* ContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactList.m; sourceTree = "<group>"; };
 		FF2EF75120722483006F44E1 /* 244.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 244.jpg; sourceTree = "<group>"; };
+		FF2EF7532072620A006F44E1 /* editContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editContactViewController.h; sourceTree = "<group>"; };
+		FF2EF7542072620A006F44E1 /* editContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = editContactViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,21 +120,23 @@
 			isa = PBXGroup;
 			children = (
 				FF2EF75120722483006F44E1 /* 244.jpg */,
+				FF2EF713206F7059006F44E1 /* main.m */,
+				FF2EF712206F7059006F44E1 /* Info.plist */,
+				FF2EF70D206F7059006F44E1 /* Assets.xcassets */,
+				FF2EF70F206F7059006F44E1 /* LaunchScreen.storyboard */,
+				FF2EF70A206F7059006F44E1 /* Main.storyboard */,
 				FF2EF701206F7059006F44E1 /* AppDelegate.h */,
 				FF2EF702206F7059006F44E1 /* AppDelegate.m */,
 				FF2EF74C207145D9006F44E1 /* ContactList.h */,
 				FF2EF74D207145D9006F44E1 /* ContactList.m */,
-				FF2EF70A206F7059006F44E1 /* Main.storyboard */,
 				FF2EF7432070DA83006F44E1 /* ContactsViewController.h */,
 				FF2EF7442070DA83006F44E1 /* ContactsViewController.m */,
 				FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */,
 				FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */,
-				FF2EF70D206F7059006F44E1 /* Assets.xcassets */,
-				FF2EF70F206F7059006F44E1 /* LaunchScreen.storyboard */,
-				FF2EF712206F7059006F44E1 /* Info.plist */,
-				FF2EF713206F7059006F44E1 /* main.m */,
 				FF2EF73A206FA94E006F44E1 /* HelpScreenViewController.h */,
 				FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */,
+				FF2EF7532072620A006F44E1 /* editContactViewController.h */,
+				FF2EF7542072620A006F44E1 /* editContactViewController.m */,
 			);
 			path = cmbyn;
 			sourceTree = "<group>";
@@ -224,6 +229,9 @@
 		FF2EF6F6206F7059006F44E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					addButton,
+				);
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Highwing Tech";
 				TargetAttributes = {
@@ -301,6 +309,7 @@
 				FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */,
 				FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */,
 				FF2EF714206F7059006F44E1 /* main.m in Sources */,
+				FF2EF7552072620A006F44E1 /* editContactViewController.m in Sources */,
 				FF2EF73C206FA94E006F44E1 /* HelpScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

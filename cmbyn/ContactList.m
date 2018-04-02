@@ -92,9 +92,12 @@
     
     CNContactFetchRequest *fetchRequest = [[CNContactFetchRequest alloc] initWithKeysToFetch:keyToFetch]; //Contacts fetch request parrams object allocation
     
+    fetchRequest.sortOrder = CNContactSortOrderUserDefault;//order the contacts by user default
+    
     [contactStore enumerateContactsWithFetchRequest:fetchRequest error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
         [groupsOfContact addObject:contact]; //add objects of all contacts list in array
     }];
+    
     
     NSMutableArray *allArray = [@[] mutableCopy]; // init a mutable array
     NSMutableArray *voipArray = [@[] mutableCopy]; // init a mutable array
@@ -131,10 +134,14 @@
                 phone = [label.value stringValue];
             }
         }
+       
         
         NSDictionary* personDict = @{@"fullName":fullName,
+                                     @"firstName":firstName,
+                                     @"lastName":lastName,
                       @"userImage":profileImage,
-                      @"VoIPNumber":phone
+                      @"VoIPNumber":phone,
+                      @"ID": contact.identifier
                       };
         
         
@@ -153,6 +160,10 @@
     allContactsArray = [allArray mutableCopy]; //get a copy of all contacts list to array.
     voipContactsArray = [voipArray mutableCopy]; //get a copy of voip contacts list to array.
 
+    /*
+    NSArray *sorted=[allContactsArray sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc]initWithKey:@"fullName" ascending:YES]]];
+    NSLog(@"%@",sorted);*/
+
 }
 
 -(void)getPermissionFromUser {
@@ -160,6 +171,73 @@
     // The user has previously denied access
     // Send an alert telling user to change privacy setting in settings app
     NSLog(@"Get Permission from User");
+}
+
+-(BOOL) addContact:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
+    CNMutableContact *mutableContact = [[CNMutableContact alloc] init];
+    
+    mutableContact.givenName = firstName;
+    mutableContact.familyName = lastName;
+    CNPhoneNumber * phone =[CNPhoneNumber phoneNumberWithStringValue:voipNumber];
+    
+    mutableContact.phoneNumbers = [[NSArray alloc] initWithObjects:[CNLabeledValue labeledValueWithLabel:@"VoIP" value:phone], nil];
+  
+    CNSaveRequest *saveRequest = [[CNSaveRequest alloc] init];
+    [saveRequest addContact:mutableContact toContainerWithIdentifier:contactStore.defaultContainerIdentifier];
+    
+    NSError *error;
+    if([contactStore executeSaveRequest:saveRequest error:&error]) {
+        NSLog(@"save");
+        return YES;
+     }else {
+        NSLog(@"save error");
+    }
+    return NO;
+}
+
+-(BOOL) updateExistContactBy:(NSString *)Identifier withFirst:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
+     NSArray *keyToFetch = @[CNContactFamilyNameKey,CNContactGivenNameKey,CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey];
+    CNContact *contact =[contactStore unifiedContactWithIdentifier:Identifier keysToFetch:keyToFetch error:nil];
+    CNMutableContact *contactTobeUpdate = contact.mutableCopy;
+    contactTobeUpdate.givenName = firstName;
+    contactTobeUpdate.familyName = lastName;
+    NSMutableArray *phoneNumbersTobeUpdate =[@[] mutableCopy];
+    BOOL foundVoIP = NO;
+    
+    for (CNLabeledValue *label in contactTobeUpdate.phoneNumbers) {
+   
+        if([label.label isEqualToString:[NSString stringWithFormat:@"VoIP"]]){
+            //if we found voip label we update it
+            CNPhoneNumber *voipPhoneNumber = [[CNPhoneNumber alloc] initWithStringValue:voipNumber];
+            CNLabeledValue *labelTobeUpdate = [[CNLabeledValue alloc] initWithLabel:label.label value:voipPhoneNumber];
+            [phoneNumbersTobeUpdate addObject:labelTobeUpdate];
+            foundVoIP = YES;
+        }
+        else{
+            //if it's not a voip label, we simply copy it
+            [phoneNumbersTobeUpdate addObject:label];
+        }
+    }
+    if(!foundVoIP){
+        //if we can't find voip label , we creat one and append it
+        CNPhoneNumber *voipPhoneNumber = [[CNPhoneNumber alloc] initWithStringValue:voipNumber];
+        CNLabeledValue *labelTobeUpdate = [CNLabeledValue labeledValueWithLabel:@"VoIP" value:voipPhoneNumber];
+            [phoneNumbersTobeUpdate addObject:labelTobeUpdate];
+    }
+    contactTobeUpdate.phoneNumbers = phoneNumbersTobeUpdate;
+    
+
+    CNSaveRequest *saveRequest = [[CNSaveRequest alloc] init];
+    [saveRequest updateContact:contactTobeUpdate];
+    
+    NSError *error;
+    if([contactStore executeSaveRequest:saveRequest error:&error]) {
+        NSLog(@"save");
+        return YES;
+    }else {
+        NSLog(@"save error : %@", [error description]);
+    }
+    return NO;
 }
 
 

@@ -25,6 +25,8 @@
 
 ///fetch contacts from Addressbooks or Contacts framework
 -(void)fetchAllContacts; //Method of fetch contacts from Addressbooks or Contacts framework
+-(BOOL) addContact:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber; //METHOD for add a new contact
+-(BOOL) updateExistContactBy:(NSString *)Identifier withFirst:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber; //METHOD for add a new contact
 
 @end
 

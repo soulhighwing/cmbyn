@@ -9,6 +9,7 @@
 #import "ContactsViewController.h"
 #import "ContactList.h"
 
+
 @interface ContactsViewController ()
 
 @end
@@ -20,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
     
     if ([[ContactList sharedContacts]allContactsArray].count !=0) {
@@ -45,6 +47,10 @@
     
     UITableViewCell *cell =
     [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+
     
     if(showVoIPOnly.selectedSegmentIndex == 0){
     cell.textLabel.text = [[ContactList sharedContacts]allContactsArray][indexPath.row][@"fullName"];
@@ -75,6 +81,33 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return NO;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editController == nil ){
+        static NSString *editControllerIdentifier=@"editContactViewController";
+        editController = [self.storyboard instantiateViewControllerWithIdentifier:editControllerIdentifier];
+    }
+    [self presentViewController:editController animated:YES completion:^{
+     }];
+
+    if(showVoIPOnly.selectedSegmentIndex == 0){
+        
+        [editController updateViewUsing:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"ID"] withFirstName:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"firstName"] withLastName:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"lastName"] withVoIPNumber:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"VoIPNumber"]];
+    }else{
+        [editController updateViewUsing:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"ID"] withFirstName:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"firstName"] withLastName:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"lastName"] withVoIPNumber:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"VoIPNumber"]];
+
+    }
+
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //add code here for when you hit delete
+        
+    }
 }
 
 /*
