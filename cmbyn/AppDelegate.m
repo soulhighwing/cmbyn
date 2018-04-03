@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "HelpScreenViewController.h"
 #import "MainInterfaceTabViewController.h"
+#import "ContactList.h"
+
 @interface AppDelegate ()
 
 @end
@@ -37,6 +39,8 @@
     [self.window makeKeyAndVisible];
  
     
+    [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
+
     /*
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
 

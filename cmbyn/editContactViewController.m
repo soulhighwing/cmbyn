@@ -39,16 +39,13 @@
 
 -(IBAction)saveContact:(id)sender{
     if(identifierString == nil){
-        if([[ContactList sharedContacts]addContact:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text]){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadContacts" object:self];
-        }
+    [[ContactList sharedContacts]addContact:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text];
     }
     else{
-        if([[ContactList sharedContacts]updateExistContactBy:identifierString withFirst:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text]){
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadContacts" object:self];
-        }
+        [[ContactList sharedContacts]updateExistContactBy:identifierString withFirst:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text];
     }
      [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 -(IBAction)cancelEdit:(id)sender{
      [self dismissViewControllerAnimated:YES completion:nil];

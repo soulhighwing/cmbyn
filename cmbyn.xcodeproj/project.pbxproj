@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF28B39F2073E7C300EAB86A /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF28B39E2073E7C300EAB86A /* HistoryTableViewController.m */; };
 		FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF702206F7059006F44E1 /* AppDelegate.m */; };
 		FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70A206F7059006F44E1 /* Main.storyboard */; settings = {ASSET_TAGS = (addButton, ); }; };
 		FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70D206F7059006F44E1 /* Assets.xcassets */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF28B39D2073E7C300EAB86A /* HistoryTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
+		FF28B39E2073E7C300EAB86A /* HistoryTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
 		FF2EF6FE206F7059006F44E1 /* cmbyn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cmbyn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2EF701206F7059006F44E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF2EF702206F7059006F44E1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -131,6 +134,8 @@
 				FF2EF74D207145D9006F44E1 /* ContactList.m */,
 				FF2EF7432070DA83006F44E1 /* ContactsViewController.h */,
 				FF2EF7442070DA83006F44E1 /* ContactsViewController.m */,
+				FF28B39D2073E7C300EAB86A /* HistoryTableViewController.h */,
+				FF28B39E2073E7C300EAB86A /* HistoryTableViewController.m */,
 				FF2EF73D206FAA1A006F44E1 /* MainInterfaceTabViewController.h */,
 				FF2EF73E206FAA1A006F44E1 /* MainInterfaceTabViewController.m */,
 				FF2EF73A206FA94E006F44E1 /* HelpScreenViewController.h */,
@@ -304,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF28B39F2073E7C300EAB86A /* HistoryTableViewController.m in Sources */,
 				FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */,
 				FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */,
 				FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */,

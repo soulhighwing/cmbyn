@@ -14,6 +14,7 @@
 @implementation ContactList
 @synthesize allContactsArray;
 @synthesize voipContactsArray;
+@synthesize historyArray;
 
 #pragma mark - Singleton Methods
 + (id)sharedContacts { //Shared instance method
@@ -30,8 +31,16 @@
 
 - (id)init { //init method
     if (self = [super init]) {
-        allContactsArray = [NSMutableArray array]; //init a mutableArray
-        voipContactsArray = [NSMutableArray array]; //init
+        allContactsArray = [@[] mutableCopy];
+        voipContactsArray = [@[] mutableCopy];
+        historyArray = [@[] mutableCopy];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(addNewCall:)
+                                                     name:@"newCalling"
+                                                   object:nil];
+
+        
     }
     return self;
 }
@@ -87,9 +96,9 @@
     [contactStore enumerateContactsWithFetchRequest:fetchRequest error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
         [groupsOfContact addObject:contact]; //add objects of all contacts list in array
     }];
-    //generate a custom dictionary to access
+    //generate a custom dictionary to access voip only
     for (CNContact *contact in groupsOfContact) {
-        NSDictionary* personDict =[self parseContact:contact];
+        NSMutableDictionary* personDict =[[self parseContact:contact] mutableCopy];
         [allContactsArray addObject:personDict];//add object of people into to array
         if([[personDict valueForKey:@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
             NSLog(@"The voipnumber is empty");
@@ -100,6 +109,8 @@
         //  NSLog(@"The allcontactsArray are - %@",allContactsArray);
       //  NSLog(@"The voipcontactsArray are - %@",voipContactsArray);
     }
+    [self loadHistory];
+    [self updateHistoryInfo];
 }
 -(NSDictionary *)parseContact:(CNContact *)contact{
     NSString *phone;
@@ -255,7 +266,7 @@
 }
 
 - (void) removeContactFromArrayBy:(NSString *)Identifier{
-    //if contact data is deleted we can remove the data from our array
+    //if contact data has deleted we can remove the data from our array
     NSUInteger indexInAll = [allContactsArray indexOfObjectPassingTest:
                              ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
                              {
@@ -279,6 +290,71 @@
     NSSortDescriptor *sortName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
     [allContactsArray sortUsingDescriptors:[NSArray arrayWithObject:sortName]];
     [voipContactsArray sortUsingDescriptors:[NSArray arrayWithObject:sortName]];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadContacts" object:self];
+    
  }
+
+#pragma mark historyArray
+
+- (void) addNewCall:(NSNotification *) notification {
+    //new call always on the top of the array
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
+    NSDate *currentDate = [NSDate date];
+    NSString *dateString = [formatter stringFromDate:currentDate];
+    
+    NSMutableDictionary *toBeAdd = [notification.userInfo mutableCopy];
+    [toBeAdd setObject:dateString forKey:@"callTime"];
+    [historyArray insertObject:toBeAdd atIndex:0];
+    [self saveHistory];
+}
+
+-(void) saveHistory{
+    //we only need to save the number and time of calls
+    NSMutableArray *archiveArray =[[NSMutableArray alloc] init];
+    for (NSDictionary *oneCall in historyArray) {
+        NSDictionary *toBeSave = @{@"VoIPNumber":[oneCall objectForKey:@"VoIPNumber"],
+                                   @"callTime":[oneCall objectForKey:@"callTime"]
+                                   };
+        NSData *oneEncodedCall = [NSKeyedArchiver archivedDataWithRootObject:toBeSave];
+        [archiveArray addObject:oneEncodedCall];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:archiveArray forKey:@"historyCalls"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+}
+-(void) loadHistory{
+    NSMutableArray *archiveArray = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"historyCalls"] mutableCopy];
+    for (NSData *toBeGet in archiveArray) {
+        NSDictionary *toBeSave = [NSKeyedUnarchiver unarchiveObjectWithData:toBeGet];
+        [historyArray addObject:toBeSave];
+    }
+}
+
+-(void)updateHistoryInfo{
+    //compare the voip number with history call and add extra info to historyArray
+    int i;
+    NSUInteger count=historyArray.count;
+    for (i = 0; i < count; i++){
+        NSUInteger indexInHistory = [voipContactsArray indexOfObjectPassingTest:
+                                     ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
+                                     {
+                                         //compare only voip number if there's duplicated number always use the first contact
+                                         return [[dict objectForKey:@"VoIPNumber"] isEqualToString:[historyArray[i] valueForKey:@"VoIPNumber"]];
+                                     }
+                                     ];
+        if(indexInHistory != NSNotFound){
+            //if found we put the extra info it into the history array merge two dictionary
+            NSMutableDictionary *personDict= [historyArray[i] mutableCopy];
+            [personDict addEntriesFromDictionary:voipContactsArray[indexInHistory]];
+            [historyArray replaceObjectAtIndex:i withObject:personDict];
+        }
+
+    }
+    
+ 
+    
+}
 
 @end

@@ -22,7 +22,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
     allContactsArray = [[ContactList sharedContacts]allContactsArray];
     voipContactsArray = [[ContactList sharedContacts]voipContactsArray];
     NSLog(@"all: %ld  voip:%ld",allContactsArray.count,voipContactsArray.count);
@@ -75,17 +74,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //check the existence of voip number first
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"CALLING"
-                                                                   message:@"This is a fake VoIP call. Add real calling code here."
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"DONE" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
+    UIAlertController* alert;
+    UIAlertAction* defaultAction ;
+    if([self.currentArry[indexPath.row][@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
+        //warning for not have voip number
+        alert = [UIAlertController alertControllerWithTitle:@"ERROR"
+                                                    message:@"You need add a VoIP Number for the contact before calling."
+                                             preferredStyle:UIAlertControllerStyleAlert];
+       defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+    }else{
+        
+          alert = [UIAlertController alertControllerWithTitle:@"CALLING"
+                                                      message:@"This is a fake VoIP call. Add real calling code here."
+                                               preferredStyle:UIAlertControllerStyleAlert];
+        defaultAction = [UIAlertAction actionWithTitle:@"DONE" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   //Post message for calling tell contactlist to update
+                                                                   [[NSNotificationCenter defaultCenter] postNotificationName:
+                                                                    @"newCalling" object:nil userInfo:self.currentArry[indexPath.row]];
+                                                                   
+                                                               }];
+   }
     
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
-    
 }
 //tap accessory = edit info
 - (void)tableView:(UITableView *)tableView
@@ -114,20 +127,24 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
         UIAlertAction* delWholeAction = [UIAlertAction actionWithTitle:@"WHOLE" style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
                                                                    if([[ContactList sharedContacts]delContactBy:self.currentArry[indexPath.row][@"ID"]]){
-                                                                       [contactsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                                                                        withRowAnimation:UITableViewRowAnimationFade];
+                                                                       [contactsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
                                                                    }
                                                                    
                                                                }];
         UIAlertAction* delVoIPAction = [UIAlertAction actionWithTitle:@"VoIP Number" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
-                                                                      [[ContactList sharedContacts]updateExistContactBy:self.currentArry[indexPath.row][@"ID"] withFirst:self.currentArry[indexPath.row][@"firstName"] withLast:self.currentArry[indexPath.row][@"lastName"] withVoIP:@""];
+                                                                    if([[ContactList sharedContacts]updateExistContactBy:self.currentArry[indexPath.row][@"ID"] withFirst:self.currentArry[indexPath.row][@"firstName"] withLast:self.currentArry[indexPath.row][@"lastName"] withVoIP:@""]){
+                                                                      [contactsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+
+                                                                  }
+                                                                  
+                                                                  
                                                                 }];
         [alert addAction:delWholeAction];
         [alert addAction:delVoIPAction];
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
-        [contactsTableView reloadData];
+
     }
 }
 
