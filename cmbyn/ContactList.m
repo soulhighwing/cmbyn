@@ -2,21 +2,12 @@
 //  ContactList.m
 //  ContactsList
 //
-//  Created by ndot on 11/01/16.
-//  Copyright © 2016 Ktr. All rights reserved.
 //
-//  My blog address: https://ktrkathir.wordpress.com
+//  Created by haiying cao on 31/03/18.
+//  Copyright © 2018 Highwing Tech. All rights reserved.
 //
-//  Fetch all contacts using both AddressBook.framework and Contacts.framework
-//
-//
-//  This class file will help you to access contacts app persons details.
-
-//  modified by haiying cao on 31/03/18
-//  removed addressbook.framework support, fixed a bug in contacts.framework switch-case
-//
-
-
+// The main idea is to maintain two NSMutableArray instead of repeadly get contacts
+// that shall make app faster when the contact list is long
 
 #import "ContactList.h"
 
@@ -51,8 +42,7 @@
     
     groupsOfContact = [@[] mutableCopy]; //init a mutable array
     
-    //In iOS 9 and above, use Contacts.framework
-    if (NSClassFromString(@"CNContactStore")) { //if Contacts.framework is available
+     if (NSClassFromString(@"CNContactStore")) { //if Contacts.framework is available
         contactStore = [[CNContactStore alloc] init]; //init a contactStore object
         
         //Check contacts authorization status using Contacts.framework entity
@@ -60,7 +50,7 @@
                 
             case CNAuthorizationStatusNotDetermined: { //Address book status not determined.
                 
-                [contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError *error) { //permission Request alert will show here.
+                [contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError *error) {
                     if (granted) { //if user allow to access a contacts in this app.
                         [self fetchContactsFromContactsFrameWork]; //access contacts
                     } else {
@@ -92,80 +82,66 @@
     
     CNContactFetchRequest *fetchRequest = [[CNContactFetchRequest alloc] initWithKeysToFetch:keyToFetch]; //Contacts fetch request parrams object allocation
     
-    fetchRequest.sortOrder = CNContactSortOrderUserDefault;//order the contacts by user default
+    fetchRequest.sortOrder = CNContactSortOrderFamilyName;//order the contacts by user default
     
     [contactStore enumerateContactsWithFetchRequest:fetchRequest error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
         [groupsOfContact addObject:contact]; //add objects of all contacts list in array
     }];
-    
-    
-    NSMutableArray *allArray = [@[] mutableCopy]; // init a mutable array
-    NSMutableArray *voipArray = [@[] mutableCopy]; // init a mutable array
-
-    
     //generate a custom dictionary to access
     for (CNContact *contact in groupsOfContact) {
-        NSString *phone;
-        NSString *fullName;
-        NSString *firstName;
-        NSString *lastName;
-        UIImage *profileImage;
- 
-        firstName = contact.givenName;
-        lastName = contact.familyName;
-        if (lastName == nil) {
-            fullName=[NSString stringWithFormat:@"%@",firstName];
-        }else if (firstName == nil){
-            fullName=[NSString stringWithFormat:@"%@",lastName];
+        NSDictionary* personDict =[self parseContact:contact];
+        [allContactsArray addObject:personDict];//add object of people into to array
+        if([[personDict valueForKey:@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
+            NSLog(@"The voipnumber is empty");
         }
         else{
-            fullName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
+            [voipContactsArray addObject:personDict];
         }
-        
-
-        if (contact.thumbnailImageData != nil) {
-            profileImage = [UIImage imageWithData:contact.thumbnailImageData];
-        }else{
-            profileImage = [UIImage imageNamed:@"244.jpg"];
-        }
-        phone = [NSString stringWithFormat:@""];
-        for (CNLabeledValue *label in contact.phoneNumbers) {
-            if([label.label isEqualToString:[NSString stringWithFormat:@"VoIP"]]){
-                phone = [label.value stringValue];
-            }
-        }
-       
-        
-        NSDictionary* personDict = @{@"fullName":fullName,
-                                     @"firstName":firstName,
-                                     @"lastName":lastName,
-                      @"userImage":profileImage,
-                      @"VoIPNumber":phone,
-                      @"ID": contact.identifier
-                      };
-        
-        
-        
-        [allArray addObject:personDict];//add object of people into to array
-        NSLog(@"The allcontactsArray are - %@",allArray);
-        if([phone isEqualToString:[NSString stringWithFormat:@""]]){
-            
-        }
-        else{
-            [voipArray addObject:personDict];
-        }
-        NSLog(@"The voipcontactsArray are - %@",voipArray);
+        //  NSLog(@"The allcontactsArray are - %@",allContactsArray);
+      //  NSLog(@"The voipcontactsArray are - %@",voipContactsArray);
+    }
+}
+-(NSDictionary *)parseContact:(CNContact *)contact{
+    NSString *phone;
+    NSString *fullName;
+    NSString *firstName;
+    NSString *lastName;
+    UIImage *profileImage;
+    
+    firstName = contact.givenName;
+    lastName = contact.familyName;
+    if (lastName == nil) {
+        fullName=[NSString stringWithFormat:@"%@",firstName];
+    }else if (firstName == nil){
+        fullName=[NSString stringWithFormat:@"%@",lastName];
+    }
+    else{
+        fullName=[NSString stringWithFormat:@"%@ %@",firstName,lastName];
     }
     
-    allContactsArray = [allArray mutableCopy]; //get a copy of all contacts list to array.
-    voipContactsArray = [voipArray mutableCopy]; //get a copy of voip contacts list to array.
-
-    /*
-    NSArray *sorted=[allContactsArray sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc]initWithKey:@"fullName" ascending:YES]]];
-    NSLog(@"%@",sorted);*/
-
+    
+    if (contact.thumbnailImageData != nil) {
+        profileImage = [UIImage imageWithData:contact.thumbnailImageData];
+    }else{
+        profileImage = [UIImage imageNamed:@"244.jpg"];
+    }
+    phone = [NSString stringWithFormat:@""];
+    for (CNLabeledValue *label in contact.phoneNumbers) {
+        if([label.label isEqualToString:[NSString stringWithFormat:@"VoIP"]]){
+            phone = [label.value stringValue];
+        }
+    }
+    
+    
+    NSDictionary* personDict = @{@"fullName":fullName,
+                                 @"firstName":firstName,
+                                 @"lastName":lastName,
+                                 @"userImage":profileImage,
+                                 @"VoIPNumber":phone,
+                                 @"ID": contact.identifier
+                                 };
+    return personDict;
 }
-
 -(void)getPermissionFromUser {
 //warning TODO: Show alert to the User, for enable the contacts permission in the Settings
     // The user has previously denied access
@@ -174,25 +150,28 @@
 }
 
 -(BOOL) addContact:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
-    CNMutableContact *mutableContact = [[CNMutableContact alloc] init];
+    CNMutableContact *contactTobeAdd = [[CNMutableContact alloc] init];
     
-    mutableContact.givenName = firstName;
-    mutableContact.familyName = lastName;
+    contactTobeAdd.givenName = firstName;
+    contactTobeAdd.familyName = lastName;
     CNPhoneNumber * phone =[CNPhoneNumber phoneNumberWithStringValue:voipNumber];
     
-    mutableContact.phoneNumbers = [[NSArray alloc] initWithObjects:[CNLabeledValue labeledValueWithLabel:@"VoIP" value:phone], nil];
+    contactTobeAdd.phoneNumbers = [[NSArray alloc] initWithObjects:[CNLabeledValue labeledValueWithLabel:@"VoIP" value:phone], nil];
   
     CNSaveRequest *saveRequest = [[CNSaveRequest alloc] init];
-    [saveRequest addContact:mutableContact toContainerWithIdentifier:contactStore.defaultContainerIdentifier];
+    [saveRequest addContact:contactTobeAdd toContainerWithIdentifier:contactStore.defaultContainerIdentifier];
     
     NSError *error;
     if([contactStore executeSaveRequest:saveRequest error:&error]) {
-        NSLog(@"save");
+        //add new contact and sorting
+        [self addContactToArray:contactTobeAdd];
+        [self sortingArray];
+        NSLog(@"add complete");
         return YES;
      }else {
-        NSLog(@"save error");
+        NSLog(@"add contact error : %@", [error description]);
+        return NO;
     }
-    return NO;
 }
 
 -(BOOL) updateExistContactBy:(NSString *)Identifier withFirst:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
@@ -201,9 +180,10 @@
     CNMutableContact *contactTobeUpdate = contact.mutableCopy;
     contactTobeUpdate.givenName = firstName;
     contactTobeUpdate.familyName = lastName;
+    //we need to extract all the phone numbers from contact and find the voip label
+    //if no voip label we need add one, if find replace it with the new number
     NSMutableArray *phoneNumbersTobeUpdate =[@[] mutableCopy];
     BOOL foundVoIP = NO;
-    
     for (CNLabeledValue *label in contactTobeUpdate.phoneNumbers) {
    
         if([label.label isEqualToString:[NSString stringWithFormat:@"VoIP"]]){
@@ -226,19 +206,79 @@
     }
     contactTobeUpdate.phoneNumbers = phoneNumbersTobeUpdate;
     
-
+    //start saving to contacts
     CNSaveRequest *saveRequest = [[CNSaveRequest alloc] init];
     [saveRequest updateContact:contactTobeUpdate];
     
     NSError *error;
     if([contactStore executeSaveRequest:saveRequest error:&error]) {
-        NSLog(@"save");
+        //remove old contact by identifier add new contact and sorting
+        [self removeContactFromArrayBy:Identifier];
+        [self addContactToArray:contactTobeUpdate];
+        [self sortingArray];
+
+        NSLog(@"update complete");
         return YES;
     }else {
-        NSLog(@"save error : %@", [error description]);
+        NSLog(@"update contact error : %@", [error description]);
+        return NO;
     }
-    return NO;
 }
 
+-(BOOL) delContactBy:(NSString *)Identifier{
+    NSArray *keyToFetch = @[CNContactFamilyNameKey];//we don't need fetch any keys other than identifier
+    CNContact *contact =[contactStore unifiedContactWithIdentifier:Identifier keysToFetch:keyToFetch error:nil];
+    CNMutableContact *mutableContact = contact.mutableCopy;
+    CNSaveRequest *deleteRequest = [[CNSaveRequest alloc] init];
+    [deleteRequest deleteContact:mutableContact];
+    
+    NSError *error;
+    if([contactStore executeSaveRequest:deleteRequest error:&error]) {
+        [self removeContactFromArrayBy:Identifier];
+        NSLog(@"delete complete");
+          return YES;
+    }else {
+        NSLog(@"delete error : %@", [error description]);
+    }    return NO;
+}
+
+-(void) addContactToArray:(CNMutableContact *)contact{
+    NSDictionary *newPerson= [self parseContact:contact];
+    [allContactsArray addObject:newPerson];
+    if([[newPerson valueForKey:@"VoIPNumber"]  isEqualToString:[NSString stringWithFormat:@""]]){
+        
+    }
+    else{
+        [voipContactsArray addObject:newPerson];
+    }
+
+}
+
+- (void) removeContactFromArrayBy:(NSString *)Identifier{
+    //if contact data is deleted we can remove the data from our array
+    NSUInteger indexInAll = [allContactsArray indexOfObjectPassingTest:
+                             ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
+                             {
+                                 return [[dict objectForKey:@"ID"] isEqual:Identifier];
+                             }
+                             ];
+    NSUInteger indexInVoIP = [voipContactsArray indexOfObjectPassingTest:
+                              ^BOOL(NSDictionary *dict, NSUInteger idx, BOOL *stop)
+                              {
+                                  return [[dict objectForKey:@"ID"] isEqual:Identifier];
+                              }
+                              ];
+    if(indexInAll != NSNotFound){
+        [allContactsArray removeObjectAtIndex:indexInAll];
+    }
+    if(indexInVoIP != NSNotFound){
+        [voipContactsArray removeObjectAtIndex:indexInVoIP];
+    }
+}
+- (void) sortingArray{
+    NSSortDescriptor *sortName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
+    [allContactsArray sortUsingDescriptors:[NSArray arrayWithObject:sortName]];
+    [voipContactsArray sortUsingDescriptors:[NSArray arrayWithObject:sortName]];
+ }
 
 @end

@@ -18,5 +18,5 @@
 }
 @property (weak,nonatomic) IBOutlet UITableView *contactsTableView;
 @property (weak,nonatomic) IBOutlet UISegmentedControl *showVoIPOnly;
--(IBAction)switchedVoIPList:(id)sender;
+-(IBAction)reloadTableView:(id)sender;
 @end

@@ -23,17 +23,19 @@
     // Do any additional setup after loading the view.
     
     [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
-    
-    if ([[ContactList sharedContacts]allContactsArray].count !=0) {
-        NSLog(@"Fetched Contact Details : %ld",[[ContactList sharedContacts]allContactsArray].count);
-    }
-  }
-
--(IBAction)switchedVoIPList:(id)sender{
-    //refresh tableview when switched to voiplist or switch back
-    [contactsTableView reloadData];
+    allContactsArray = [[ContactList sharedContacts]allContactsArray];
+    voipContactsArray = [[ContactList sharedContacts]voipContactsArray];
+    NSLog(@"all: %ld  voip:%ld",allContactsArray.count,voipContactsArray.count);
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadTableView:)
+                                                 name:@"reloadContacts"
+                                               object:nil];
 }
 
+
+- (IBAction)reloadTableView:(id)sender {
+    [contactsTableView reloadData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -50,26 +52,13 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-
-    
-    if(showVoIPOnly.selectedSegmentIndex == 0){
-    cell.textLabel.text = [[ContactList sharedContacts]allContactsArray][indexPath.row][@"fullName"];
-    cell.detailTextLabel.text = [[ContactList sharedContacts]allContactsArray][indexPath.row][@"VoIPNumber"];
-    }
-    else{
-        cell.textLabel.text = [[ContactList sharedContacts]voipContactsArray][indexPath.row][@"fullName"];
-        cell.detailTextLabel.text = [[ContactList sharedContacts]voipContactsArray][indexPath.row][@"VoIPNumber"];
-    }
+    cell.textLabel.text = self.currentArry[indexPath.row][@"fullName"];
+    cell.detailTextLabel.text = self.currentArry[indexPath.row][@"VoIPNumber"];
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(showVoIPOnly.selectedSegmentIndex == 0){
-        return [[ContactList sharedContacts]allContactsArray].count;
-    }
-    else{
-        return [[ContactList sharedContacts]voipContactsArray].count;
-    }
+        return self.currentArry.count;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,42 +71,78 @@
 {
     return NO;
 }
-
+//select row = make call
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //check the existence of voip number first
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"CALLING"
+                                                                   message:@"This is a fake VoIP call. Add real calling code here."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"DONE" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+//tap accessory = edit info
+- (void)tableView:(UITableView *)tableView
+accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    
     if(editController == nil ){
         static NSString *editControllerIdentifier=@"editContactViewController";
         editController = [self.storyboard instantiateViewControllerWithIdentifier:editControllerIdentifier];
     }
     [self presentViewController:editController animated:YES completion:^{
-     }];
+    }];
 
-    if(showVoIPOnly.selectedSegmentIndex == 0){
-        
-        [editController updateViewUsing:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"ID"] withFirstName:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"firstName"] withLastName:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"lastName"] withVoIPNumber:[[ContactList sharedContacts]allContactsArray][indexPath.row][@"VoIPNumber"]];
-    }else{
-        [editController updateViewUsing:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"ID"] withFirstName:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"firstName"] withLastName:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"lastName"] withVoIPNumber:[[ContactList sharedContacts]voipContactsArray][indexPath.row][@"VoIPNumber"]];
-
-    }
-
+    [editController updateViewUsing:self.currentArry[indexPath.row][@"ID"] withFirstName:self.currentArry[indexPath.row][@"firstName"] withLastName:self.currentArry[indexPath.row][@"lastName"] withVoIPNumber:self.currentArry[indexPath.row][@"VoIPNumber"]];
 }
 
-// Override to support editing the table view.
+// swipe to delete
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //add code here for when you hit delete
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"DELETE"
+                                                                       message:@"Delete whole contact info or VoIP number only?"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        UIAlertAction* delWholeAction = [UIAlertAction actionWithTitle:@"WHOLE" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   if([[ContactList sharedContacts]delContactBy:self.currentArry[indexPath.row][@"ID"]]){
+                                                                       [contactsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                                                                        withRowAnimation:UITableViewRowAnimationFade];
+                                                                   }
+                                                                   
+                                                               }];
+        UIAlertAction* delVoIPAction = [UIAlertAction actionWithTitle:@"VoIP Number" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                      [[ContactList sharedContacts]updateExistContactBy:self.currentArry[indexPath.row][@"ID"] withFirst:self.currentArry[indexPath.row][@"firstName"] withLast:self.currentArry[indexPath.row][@"lastName"] withVoIP:@""];
+                                                                }];
+        [alert addAction:delWholeAction];
+        [alert addAction:delVoIPAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        [contactsTableView reloadData];
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSMutableArray *)currentArry{
+    if(showVoIPOnly.selectedSegmentIndex == 0){
+        return allContactsArray;
+    }
+    else{
+        return voipContactsArray;
+    }
 }
-*/
+
+
+ #pragma mark - Notification
+ 
+
 
 @end
