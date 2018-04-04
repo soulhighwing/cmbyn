@@ -12,8 +12,7 @@
 #import <Contacts/Contacts.h> //Contacts.framework for above iOS 9
 #import <UIKit/UIKit.h>
 @interface ContactList : NSObject{
-    NSMutableArray *groupsOfContact; //Collection of contacts by using contacts.framework
-    CNContactStore *contactStore; //ContactStore Object
+     CNContactStore *contactStore; //ContactStore Object
 }
 
 @property (nonatomic,retain) NSMutableArray *allContactsArray;

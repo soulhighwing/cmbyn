@@ -27,31 +27,25 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
-       // NSLog(@"showHelp");
-        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HelpScreen"];
+        // NSLog(@"showHelp");
+        HelpScreenViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HelpScreen"];
         self.window.rootViewController = viewController;
     }else {
-       // NSLog(@"Not show help");
-        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainInterface"];
+        // NSLog(@"Not show help");
+        MainInterfaceTabViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainInterface"];
+        //let mainview know when we don't have access
+        [[NSNotificationCenter defaultCenter] addObserver:viewController
+                                                 selector:@selector(getPermissionFromUser)
+                                                     name:@"contactsAccessDenied"
+                                                   object:nil];
+
+        
         self.window.rootViewController = viewController;
     }
-
-    [self.window makeKeyAndVisible];
- 
     
-    [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
+    [self.window makeKeyAndVisible];
+    
 
-    /*
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
-
-        HelpScreenViewController *vc = [[HelpScreenViewController alloc] init];
-        self.window.rootViewController = vc;
-    }else {
-        NSLog(@"Not show help");
-        MainInterfaceTabViewController *vc = [[MainInterfaceTabViewController alloc] init];
-        self.window.rootViewController = vc;
-    }
-*/
     return YES;
 }
 
@@ -70,11 +64,15 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    //refresh all data because contacts could be changed here
+    [[ContactList sharedContacts] fetchAllContacts]; // fetch all contacts by calling single to method
+
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
 }
 
 

@@ -48,9 +48,10 @@
 #pragma mark - Fetch All Contacts from Addressbooks or Contacts framework
 //Method of fetch contacts from Addressbooks or Contacts framework
 - (void)fetchAllContacts {
-    
-    groupsOfContact = [@[] mutableCopy]; //init a mutable array
-    
+    //we're going to renew the whole data
+    [allContactsArray removeAllObjects];
+    [voipContactsArray removeAllObjects];
+    [historyArray    removeAllObjects];
      if (NSClassFromString(@"CNContactStore")) { //if Contacts.framework is available
         contactStore = [[CNContactStore alloc] init]; //init a contactStore object
         
@@ -64,7 +65,7 @@
                         [self fetchContactsFromContactsFrameWork]; //access contacts
                     } else {
                         // The user has denied access
-                        [self getPermissionFromUser]; //Ask permission from user
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"contactsAccessDenied" object:nil];
                     }
                 }];
             }
@@ -75,8 +76,8 @@
                 break;
             default: {
                 // The user has previously denied access
-                // Send an alert telling user to change privacy setting in settings app
-                [self getPermissionFromUser];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"contactsAccessDenied" object:nil];
+                
             }
                 break;
         }
@@ -92,7 +93,9 @@
     CNContactFetchRequest *fetchRequest = [[CNContactFetchRequest alloc] initWithKeysToFetch:keyToFetch]; //Contacts fetch request parrams object allocation
     
     fetchRequest.sortOrder = CNContactSortOrderFamilyName;//order the contacts by user default
-    
+  
+    NSMutableArray *   groupsOfContact = [@[] mutableCopy]; //arrary that save all the contacts we get
+
     [contactStore enumerateContactsWithFetchRequest:fetchRequest error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
         [groupsOfContact addObject:contact]; //add objects of all contacts list in array
     }];
@@ -152,12 +155,6 @@
                                  @"ID": contact.identifier
                                  };
     return personDict;
-}
--(void)getPermissionFromUser {
-//warning TODO: Show alert to the User, for enable the contacts permission in the Settings
-    // The user has previously denied access
-    // Send an alert telling user to change privacy setting in settings app
-    NSLog(@"Get Permission from User");
 }
 
 -(BOOL) addContact:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
