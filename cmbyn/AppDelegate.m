@@ -20,10 +20,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
     //use NSUSERDEFAULTS TO SAVE THE HELPSCREEN STATE
-    
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    
+    //load storyboard manually so we can chose where we start the app
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
@@ -33,12 +33,6 @@
     }else {
         // NSLog(@"Not show help");
         MainInterfaceTabViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainInterface"];
-        //let mainview know when we don't have access
-        [[NSNotificationCenter defaultCenter] addObserver:viewController
-                                                 selector:@selector(getPermissionFromUser)
-                                                     name:@"contactsAccessDenied"
-                                                   object:nil];
-
         
         self.window.rootViewController = viewController;
     }

@@ -18,6 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //we need observer the contacts access
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getPermissionFromUser)
+                                                 name:@"contactsAccessDenied"
+                                               object:nil];
+
     [[ContactList sharedContacts] fetchAllContacts]; // first time fetch
 
  }
@@ -49,6 +55,7 @@
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action)
                                      {
+                                         //provide an url to help user jump to the settings of app
                                          NSURL * settingsURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",UIApplicationOpenSettingsURLString,[[NSBundle mainBundle]bundleIdentifier]]];
                                          
                                          if (settingsURL) {

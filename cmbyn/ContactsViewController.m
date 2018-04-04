@@ -21,9 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    //locate the arraies
     allContactsArray = [[ContactList sharedContacts]allContactsArray];
     voipContactsArray = [[ContactList sharedContacts]voipContactsArray];
+    
    // NSLog(@"all: %ld  voip:%ld",allContactsArray.count,voipContactsArray.count);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadTableView:)
@@ -31,7 +32,7 @@
                                                object:nil];
 }
 
-
+//when switch between all contacts and VoIP only, we need reload the data
 - (IBAction)reloadTableView:(id)sender {
     [contactsTableView reloadData];
 }
@@ -40,10 +41,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - contacts access
 
 #pragma mark - Table view
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    //get the cell
     static NSString *CellIdentifier = @"ContactCell";
     
     UITableViewCell *cell =
@@ -51,13 +52,14 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    cell.textLabel.text = self.currentArry[indexPath.row][@"fullName"];
-    cell.detailTextLabel.text = self.currentArry[indexPath.row][@"VoIPNumber"];
+    //fill the cell
+    cell.textLabel.text = self.currentArray[indexPath.row][@"fullName"];
+    cell.detailTextLabel.text = self.currentArray[indexPath.row][@"VoIPNumber"];
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-        return self.currentArry.count;
+        return self.currentArray.count;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,10 +75,11 @@
 //select row = make call
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //check the existence of voip number first
+    //when select one row make a call
     UIAlertController* alert;
     UIAlertAction* defaultAction ;
-    if([self.currentArry[indexPath.row][@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
+    //check the existence of voip number first
+    if([self.currentArray[indexPath.row][@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
         //warning for not have voip number
         alert = [UIAlertController alertControllerWithTitle:@"ERROR"
                                                     message:@"You need add a VoIP Number for the contact before calling."
@@ -84,7 +87,7 @@
        defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {}];
     }else{
-        
+        //an alert message to emulate the call and post the notice to other views
           alert = [UIAlertController alertControllerWithTitle:@"CALLING"
                                                       message:@"This is a fake VoIP call. Add real calling code here."
                                                preferredStyle:UIAlertControllerStyleAlert];
@@ -92,7 +95,7 @@
                                                                handler:^(UIAlertAction * action) {
                                                                    //Post message for calling tell historytable to update
                                                                    [[NSNotificationCenter defaultCenter] postNotificationName:
-                                                                    @"newCalling" object:nil userInfo:self.currentArry[indexPath.row]];
+                                                                    @"newCalling" object:nil userInfo:self.currentArray[indexPath.row]];
                                                                    //post message to let historyview reload data
                                                                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHistory" object:nil];
                                                                    
@@ -106,21 +109,23 @@
 //tap accessory = edit info
 - (void)tableView:(UITableView *)tableView
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    
+    //load an edit controller for edit the contact name and voip number
     if(editController == nil ){
         static NSString *editControllerIdentifier=@"editContactViewController";
         editController = [self.storyboard instantiateViewControllerWithIdentifier:editControllerIdentifier];
     }
     [self presentViewController:editController animated:YES completion:^{
     }];
-
-    [editController updateViewUsing:self.currentArry[indexPath.row][@"ID"] withFirstName:self.currentArry[indexPath.row][@"firstName"] withLastName:self.currentArry[indexPath.row][@"lastName"] withVoIPNumber:self.currentArry[indexPath.row][@"VoIPNumber"]];
+    //after the edit viewcontroller loaded we need set the correct value for it
+    [editController updateViewUsing:self.currentArray[indexPath.row][@"ID"] withFirstName:self.currentArray[indexPath.row][@"firstName"] withLastName:self.currentArray[indexPath.row][@"lastName"] withVoIPNumber:self.currentArray[indexPath.row][@"VoIPNumber"]];
 }
 
 // swipe to delete
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //add code here for when you hit delete
+        //we need two different type of delete: whole contact or voip number only
+        //show an alert for user to chose
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"DELETE"
                                                                        message:@"Delete whole contact from SYSTEM CONTACTS or remove VoIP number only?"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -129,14 +134,18 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
                                                               handler:^(UIAlertAction * action) {}];
         UIAlertAction* delWholeAction = [UIAlertAction actionWithTitle:@"WHOLE" style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
-                                                                   if([[ContactList sharedContacts]delContactBy:self.currentArry[indexPath.row][@"ID"]]){
+                                                                   //delete whole contact
+                                                                   if([[ContactList sharedContacts]delContactBy:self.currentArray[indexPath.row][@"ID"]]){
+                                                                       //remove single row
                                                                        [contactsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
                                                                    }
                                                                    
                                                                }];
         UIAlertAction* delVoIPAction = [UIAlertAction actionWithTitle:@"VoIP Number" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
-                                                                    if([[ContactList sharedContacts]updateExistContactBy:self.currentArry[indexPath.row][@"ID"] withFirst:self.currentArry[indexPath.row][@"firstName"] withLast:self.currentArry[indexPath.row][@"lastName"] withVoIP:@""]){
+                                                                  //remove voip number only
+                                                                    if([[ContactList sharedContacts]updateExistContactBy:self.currentArray[indexPath.row][@"ID"] withFirst:self.currentArray[indexPath.row][@"firstName"] withLast:self.currentArray[indexPath.row][@"lastName"] withVoIP:@""]){
+                                                                       //reload single row
                                                                       [contactsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
 
                                                                   }
@@ -151,7 +160,8 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     }
 }
 
--(NSMutableArray *)currentArry{
+//return the correct array base on the switch
+-(NSMutableArray *)currentArray{
     if(showVoIPOnly.selectedSegmentIndex == 0){
         return allContactsArray;
     }

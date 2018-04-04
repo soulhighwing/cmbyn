@@ -31,17 +31,18 @@
 }
 
 - (void)updateViewUsing:(NSString *)identifier withFirstName:(NSString *)firstName withLastName:(NSString *)lastName withVoIPNumber:(NSString *)voipNumber{
+    //fill the view with correct data
     identifierString = identifier;
     firstNameField.text = firstName;
     lastNameField.text = lastName;
     voipNumberField.text = voipNumber;
 }
-
+//save contact was clicked
 -(IBAction)saveContact:(id)sender{
-    if(identifierString == nil){
+    if(identifierString == nil){//it's a new contact we need add it
     [[ContactList sharedContacts]addContact:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text];
     }
-    else{
+    else{//already exist , update it
         [[ContactList sharedContacts]updateExistContactBy:identifierString withFirst:firstNameField.text withLast:lastNameField.text withVoIP:voipNumberField.text];
     }
      [self dismissViewControllerAnimated:YES completion:nil];

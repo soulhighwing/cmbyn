@@ -24,10 +24,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//a simple generate to create fake calls on history data
 - (IBAction)generateRandomCall:(id)sender{
-    
-    NSDictionary* randomCall = @{@"fullName":@"",
+     NSDictionary* randomCall = @{@"fullName":@"",
                                  @"firstName":@"",
                                  @"lastName":@"",
                                  @"userImage":[UIImage imageNamed:@"unknow.jpg"],

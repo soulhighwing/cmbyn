@@ -10,7 +10,7 @@
 #import "editContactViewController.h"
 
 @interface ContactsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
-    NSMutableArray *allContactsArray; //Total Mobile Contacts from access from this variable
+    NSMutableArray *allContactsArray; //All contacts arrary
     NSMutableArray *voipContactsArray; //Contacts with voip
     
     editContactViewController *editController;

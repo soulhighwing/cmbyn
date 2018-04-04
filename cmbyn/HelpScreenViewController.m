@@ -25,6 +25,7 @@
 }
 
 -(IBAction)switchOffHelpScreen{
+        //we don't need see help screen any more
          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showHelp"];
 }
 
