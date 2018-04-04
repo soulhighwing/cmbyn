@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "editContactViewController.h"
 
 @interface HistoryTableViewController : UITableViewController{
     NSMutableArray *historyArray;
+    editContactViewController *editController;
 }
 
 @end

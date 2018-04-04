@@ -39,7 +39,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Dow" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uur-pn-Hek">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Doe" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uur-pn-Hek">
                                 <rect key="frame" x="180" y="194" width="145" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -76,7 +76,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Contact" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhJ-0K-bu1">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit/Add Contact" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhJ-0K-bu1">
                                 <rect key="frame" x="92" y="29" width="190" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -100,7 +100,7 @@
         <!--Dial-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController title="Dial" id="9pv-A4-QxB" sceneMemberID="viewController">
+                <viewController title="Dial" id="9pv-A4-QxB" customClass="DialViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,15 +120,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfz-Zk-waL">
-                                <rect key="frame" x="80" y="281" width="214" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="generate random out going call"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c3K-Wg-7dF">
                                 <rect key="frame" x="69" y="327" width="236" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="generate random incoming call"/>
+                                <state key="normal" title="generate random call"/>
+                                <connections>
+                                    <action selector="generateRandomCall:" destination="9pv-A4-QxB" eventType="touchUpInside" id="SXJ-sB-7PG"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -183,13 +181,13 @@
                             <outlet property="delegate" destination="8Xs-X7-UgI" id="h6b-Hi-8Rh"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="History" image="second" id="1eI-gS-OyZ"/>
+                    <tabBarItem key="tabBarItem" systemItem="history" id="1eI-gS-OyZ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="APx-x2-SgR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-297" y="822"/>
         </scene>
-        <!--Contacts-->
+        <!--Contacts View Controller-->
         <scene sceneID="5IG-cx-PUV">
             <objects>
                 <viewController id="w4E-yu-2dh" customClass="ContactsViewController" sceneMemberID="viewController">
@@ -262,7 +260,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="GGG-Vr-a4J"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Contacts" image="first" selectedImage="first" id="O9W-Qg-Pu9"/>
+                    <tabBarItem key="tabBarItem" selectedImage="Contacts" systemItem="contacts" id="O9W-Qg-Pu9"/>
                     <connections>
                         <outlet property="contactsTableView" destination="1fG-K5-ASd" id="LGd-P2-JVG"/>
                         <outlet property="showVoIPOnly" destination="nBY-ja-l7T" id="TJR-WX-QK2"/>
@@ -280,16 +278,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggw-kL-hWc">
-                                <rect key="frame" x="101" y="435" width="173" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Start"/>
-                                <connections>
-                                    <segue destination="49e-Tb-3d3" kind="show" id="ro0-EW-jPF"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lAz-Ai-JVj">
-                                <rect key="frame" x="67" y="70" width="240" height="165"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="unknow.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="lAz-Ai-JVj">
+                                <rect key="frame" x="120" y="198" width="135" height="135"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
@@ -302,15 +292,23 @@
                                     <segue destination="49e-Tb-3d3" kind="show" id="KiF-Bd-fQb"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="This is a simple onboarding screen with a couple of tips for how to use the application." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="J7g-tp-UR6">
-                                <rect key="frame" x="67" y="263" width="240" height="128"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Click the row to make the call. Swipe to delete the history or contact. Click the info icon to edit/add the contact. " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="J7g-tp-UR6">
+                                <rect key="frame" x="67" y="341" width="240" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggw-kL-hWc">
+                                <rect key="frame" x="101" y="454" width="173" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <segue destination="49e-Tb-3d3" kind="show" id="ro0-EW-jPF"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.24581649680000001" green="0.75522900130000004" blue="0.72897977059999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="OSD-vp-MtN"/>
                     </view>
                 </viewController>
@@ -339,8 +337,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Contacts" width="16" height="16"/>
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
+        <image name="unknow.jpg" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ro0-EW-jPF"/>

@@ -31,7 +31,7 @@
 
 - (id)init { //init method
     if (self = [super init]) {
-        allContactsArray = [@[] mutableCopy];
+        allContactsArray =  [@[] mutableCopy];
         voipContactsArray = [@[] mutableCopy];
         historyArray = [@[] mutableCopy];
         
@@ -101,7 +101,7 @@
         NSMutableDictionary* personDict =[[self parseContact:contact] mutableCopy];
         [allContactsArray addObject:personDict];//add object of people into to array
         if([[personDict valueForKey:@"VoIPNumber"] isEqualToString:[NSString stringWithFormat:@""]]){
-            NSLog(@"The voipnumber is empty");
+          //  NSLog(@"The voipnumber is empty");
         }
         else{
             [voipContactsArray addObject:personDict];
@@ -134,7 +134,7 @@
     if (contact.thumbnailImageData != nil) {
         profileImage = [UIImage imageWithData:contact.thumbnailImageData];
     }else{
-        profileImage = [UIImage imageNamed:@"244.jpg"];
+        profileImage = [UIImage imageNamed:@"unknow.jpg"];
     }
     phone = [NSString stringWithFormat:@""];
     for (CNLabeledValue *label in contact.phoneNumbers) {
@@ -163,8 +163,8 @@
 -(BOOL) addContact:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber{
     CNMutableContact *contactTobeAdd = [[CNMutableContact alloc] init];
     
-    contactTobeAdd.givenName = firstName;
-    contactTobeAdd.familyName = lastName;
+    contactTobeAdd.givenName = firstName!=nil? firstName:[NSString stringWithFormat:@""];
+    contactTobeAdd.familyName = lastName!=nil? lastName:[NSString stringWithFormat:@""];
     CNPhoneNumber * phone =[CNPhoneNumber phoneNumberWithStringValue:voipNumber];
     
     contactTobeAdd.phoneNumbers = [[NSArray alloc] initWithObjects:[CNLabeledValue labeledValueWithLabel:@"VoIP" value:phone], nil];
@@ -177,6 +177,7 @@
         //add new contact and sorting
         [self addContactToArray:contactTobeAdd];
         [self sortingArray];
+        [self updateHistoryInfo];
         NSLog(@"add complete");
         return YES;
      }else {
@@ -189,8 +190,8 @@
      NSArray *keyToFetch = @[CNContactFamilyNameKey,CNContactGivenNameKey,CNContactPhoneNumbersKey,CNContactThumbnailImageDataKey];
     CNContact *contact =[contactStore unifiedContactWithIdentifier:Identifier keysToFetch:keyToFetch error:nil];
     CNMutableContact *contactTobeUpdate = contact.mutableCopy;
-    contactTobeUpdate.givenName = firstName;
-    contactTobeUpdate.familyName = lastName;
+    contactTobeUpdate.givenName = firstName!=nil? firstName:[NSString stringWithFormat:@""];
+    contactTobeUpdate.familyName = lastName!=nil? lastName:[NSString stringWithFormat:@""];
     //we need to extract all the phone numbers from contact and find the voip label
     //if no voip label we need add one, if find replace it with the new number
     NSMutableArray *phoneNumbersTobeUpdate =[@[] mutableCopy];
@@ -227,6 +228,7 @@
         [self removeContactFromArrayBy:Identifier];
         [self addContactToArray:contactTobeUpdate];
         [self sortingArray];
+        [self updateHistoryInfo];
 
         NSLog(@"update complete");
         return YES;
@@ -246,6 +248,7 @@
     NSError *error;
     if([contactStore executeSaveRequest:deleteRequest error:&error]) {
         [self removeContactFromArrayBy:Identifier];
+        [self updateHistoryInfo];
         NSLog(@"delete complete");
           return YES;
     }else {
@@ -310,9 +313,14 @@
     [self saveHistory];
 }
 
+-(void) delOneHistoryCall:(NSUInteger) index{
+    [historyArray removeObjectAtIndex:index];
+    [self saveHistory];
+}
+
 -(void) saveHistory{
     //we only need to save the number and time of calls
-    NSMutableArray *archiveArray =[[NSMutableArray alloc] init];
+    NSMutableArray *archiveArray =[@[] mutableCopy];
     for (NSDictionary *oneCall in historyArray) {
         NSDictionary *toBeSave = @{@"VoIPNumber":[oneCall objectForKey:@"VoIPNumber"],
                                    @"callTime":[oneCall objectForKey:@"callTime"]
@@ -350,9 +358,25 @@
             [personDict addEntriesFromDictionary:voipContactsArray[indexInHistory]];
             [historyArray replaceObjectAtIndex:i withObject:personDict];
         }
+        else{
+            //if not found we have a new call number remove all other info left only number and time
+       //     NSMutableDictionary *personDict= [historyArray[i] mutableCopy];
+        //    [personDict addEntriesFromDictionary:voipContactsArray[indexInHistory]];
+            
+            NSDictionary* personDict = @{@"fullName":@"",
+                                         @"firstName":@"",
+                                         @"lastName":@"",
+                                         @"userImage":[UIImage imageNamed:@"unknow.jpg"],
+                                         @"VoIPNumber":[historyArray[i] objectForKey:@"VoIPNumber"],
+                                         @"callTime":[historyArray[i] objectForKey:@"callTime"]
+                                         };
+           
+            [historyArray replaceObjectAtIndex:i withObject:personDict];
+        }
 
     }
-    
+    //post message to let historyview reload data
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHistory" object:nil];
  
     
 }

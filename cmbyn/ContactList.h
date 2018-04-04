@@ -28,6 +28,8 @@
 -(BOOL) updateExistContactBy:(NSString *)Identifier withFirst:(NSString *)firstName withLast:(NSString *)lastName withVoIP:(NSString *)voipNumber; //method for update a contact
 -(BOOL) delContactBy:(NSString *)Identifier;//Method for del a contact
 
+-(void) delOneHistoryCall:(NSUInteger) index;//remove one history data
+
 @end
 
 

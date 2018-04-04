@@ -24,7 +24,7 @@
     
     allContactsArray = [[ContactList sharedContacts]allContactsArray];
     voipContactsArray = [[ContactList sharedContacts]voipContactsArray];
-    NSLog(@"all: %ld  voip:%ld",allContactsArray.count,voipContactsArray.count);
+   // NSLog(@"all: %ld  voip:%ld",allContactsArray.count,voipContactsArray.count);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reloadTableView:)
                                                  name:@"reloadContacts"
@@ -90,11 +90,14 @@
                                                preferredStyle:UIAlertControllerStyleAlert];
         defaultAction = [UIAlertAction actionWithTitle:@"DONE" style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
-                                                                   //Post message for calling tell contactlist to update
+                                                                   //Post message for calling tell historytable to update
                                                                    [[NSNotificationCenter defaultCenter] postNotificationName:
                                                                     @"newCalling" object:nil userInfo:self.currentArry[indexPath.row]];
+                                                                   //post message to let historyview reload data
+                                                                   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadHistory" object:nil];
                                                                    
                                                                }];
+        
    }
     
     [alert addAction:defaultAction];
@@ -119,7 +122,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //add code here for when you hit delete
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"DELETE"
-                                                                       message:@"Delete whole contact info or VoIP number only?"
+                                                                       message:@"Delete whole contact from SYSTEM CONTACTS or remove VoIP number only?"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleDefault

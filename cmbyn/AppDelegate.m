@@ -27,11 +27,11 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showHelp"]) {
-        NSLog(@"showHelp");
+       // NSLog(@"showHelp");
         UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HelpScreen"];
         self.window.rootViewController = viewController;
     }else {
-        NSLog(@"Not show help");
+       // NSLog(@"Not show help");
         UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainInterface"];
         self.window.rootViewController = viewController;
     }

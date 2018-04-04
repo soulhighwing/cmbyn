@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FF28B39F2073E7C300EAB86A /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF28B39E2073E7C300EAB86A /* HistoryTableViewController.m */; };
+		FF28B3A22074BC5A00EAB86A /* DialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF28B3A12074BC5A00EAB86A /* DialViewController.m */; };
+		FF28B3A42074C54F00EAB86A /* unknow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF28B3A32074C54F00EAB86A /* unknow.jpg */; };
+		FF28B3A62074CA2100EAB86A /* cover_320X480.png in Resources */ = {isa = PBXBuildFile; fileRef = FF28B3A52074CA2100EAB86A /* cover_320X480.png */; };
 		FF2EF703206F7059006F44E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF702206F7059006F44E1 /* AppDelegate.m */; };
 		FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70A206F7059006F44E1 /* Main.storyboard */; settings = {ASSET_TAGS = (addButton, ); }; };
 		FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF70D206F7059006F44E1 /* Assets.xcassets */; };
@@ -20,7 +23,6 @@
 		FF2EF7452070DA83006F44E1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7442070DA83006F44E1 /* ContactsViewController.m */; };
 		FF2EF74B20713F2F006F44E1 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2EF74A20713F2F006F44E1 /* Contacts.framework */; };
 		FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF74D207145D9006F44E1 /* ContactList.m */; };
-		FF2EF75220722483006F44E1 /* 244.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF2EF75120722483006F44E1 /* 244.jpg */; };
 		FF2EF7552072620A006F44E1 /* editContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF2EF7542072620A006F44E1 /* editContactViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,10 @@
 /* Begin PBXFileReference section */
 		FF28B39D2073E7C300EAB86A /* HistoryTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
 		FF28B39E2073E7C300EAB86A /* HistoryTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
+		FF28B3A02074BC5A00EAB86A /* DialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DialViewController.h; sourceTree = "<group>"; };
+		FF28B3A12074BC5A00EAB86A /* DialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DialViewController.m; sourceTree = "<group>"; };
+		FF28B3A32074C54F00EAB86A /* unknow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = unknow.jpg; sourceTree = "<group>"; };
+		FF28B3A52074CA2100EAB86A /* cover_320X480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_320X480.png; sourceTree = "<group>"; };
 		FF2EF6FE206F7059006F44E1 /* cmbyn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cmbyn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2EF701206F7059006F44E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF2EF702206F7059006F44E1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,7 +73,6 @@
 		FF2EF74A20713F2F006F44E1 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		FF2EF74C207145D9006F44E1 /* ContactList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactList.h; sourceTree = "<group>"; };
 		FF2EF74D207145D9006F44E1 /* ContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactList.m; sourceTree = "<group>"; };
-		FF2EF75120722483006F44E1 /* 244.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 244.jpg; sourceTree = "<group>"; };
 		FF2EF7532072620A006F44E1 /* editContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editContactViewController.h; sourceTree = "<group>"; };
 		FF2EF7542072620A006F44E1 /* editContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = editContactViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,7 +127,8 @@
 		FF2EF700206F7059006F44E1 /* cmbyn */ = {
 			isa = PBXGroup;
 			children = (
-				FF2EF75120722483006F44E1 /* 244.jpg */,
+				FF28B3A52074CA2100EAB86A /* cover_320X480.png */,
+				FF28B3A32074C54F00EAB86A /* unknow.jpg */,
 				FF2EF713206F7059006F44E1 /* main.m */,
 				FF2EF712206F7059006F44E1 /* Info.plist */,
 				FF2EF70D206F7059006F44E1 /* Assets.xcassets */,
@@ -142,6 +148,8 @@
 				FF2EF73B206FA94E006F44E1 /* HelpScreenViewController.m */,
 				FF2EF7532072620A006F44E1 /* editContactViewController.h */,
 				FF2EF7542072620A006F44E1 /* editContactViewController.m */,
+				FF28B3A02074BC5A00EAB86A /* DialViewController.h */,
+				FF28B3A12074BC5A00EAB86A /* DialViewController.m */,
 			);
 			path = cmbyn;
 			sourceTree = "<group>";
@@ -281,10 +289,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF2EF75220722483006F44E1 /* 244.jpg in Resources */,
+				FF28B3A42074C54F00EAB86A /* unknow.jpg in Resources */,
 				FF2EF711206F7059006F44E1 /* LaunchScreen.storyboard in Resources */,
 				FF2EF70E206F7059006F44E1 /* Assets.xcassets in Resources */,
 				FF2EF70C206F7059006F44E1 /* Main.storyboard in Resources */,
+				FF28B3A62074CA2100EAB86A /* cover_320X480.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF28B3A22074BC5A00EAB86A /* DialViewController.m in Sources */,
 				FF28B39F2073E7C300EAB86A /* HistoryTableViewController.m in Sources */,
 				FF2EF74E207145D9006F44E1 /* ContactList.m in Sources */,
 				FF2EF73F206FAA1A006F44E1 /* MainInterfaceTabViewController.m in Sources */,
